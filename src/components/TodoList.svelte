@@ -7,5 +7,5 @@ import TodoAdd from './TodoAdd.svelte';
 <TodoAdd/>
 
 {#each $list as item} 
-    {item}
-{/each}
+    {item.title}
+{/each} 
