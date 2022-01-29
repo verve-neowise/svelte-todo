@@ -1,21 +1,32 @@
 <script lang="ts">
-import {list} from '../store/todo'
-import Button from './Button.svelte';
+  import { list } from "../store/todo";
+  import Button from "./Button.svelte";
+  import Input from "./Input.svelte";
 
-    let title = 'Hello'
+  let title = "Hello";
 
-    const add = () => {
-        list.add({ title, id: new Date().valueOf(), created: new Date() })
-    };
-
+  const add = () => {
+    if (!title) {
+      return undefined;
+    }
+    list.add({ title, id: new Date().valueOf(), created: new Date() });
+    title = "";
+  };
 </script>
 
-<input
-    bind:value={title}
-    type="text">
+<div class="todo-add">
 
-<Button
-    on:click={add}
-    type="">
-    Add
-</Button>
+  <Input bind:value={title} on:enter={add} />
+
+  <Button on:click={add} disabled={!title}>Add</Button>
+
+</div>
+
+
+<style lang="scss">
+    .todo-add {
+        :global(.input) {
+            width: 300px;
+        }
+    }
+</style>

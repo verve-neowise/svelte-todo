@@ -1,5 +1,5 @@
-import { writable, readable } from "svelte/store";
-import { LIST_NAME } from "../constants/constants";
+import { writable } from "svelte/store";
+import { LIST_NAME } from "../constants";
 import type ITodo from "../interfaces/ITodo";
 
 const createList = () => {
@@ -38,9 +38,23 @@ const createList = () => {
     }
 }
 
+
+const createSelection = () => {
+
+    const { subscribe, update, set } = writable<number[]>([])
+
+    return {
+        subscribe,
+        add: (id: number) => update(value => [...value, id]),
+        remove: (id: number) => update(value => value.filter(v => v !== id)),
+        removeAll: () => set([])
+    }
+
+}
+
 const changeStorage = (value: ITodo[]) => {
     window.localStorage.setItem(LIST_NAME, JSON.stringify(value))
 }
 
 export const list = createList()
-
+export const selection = createSelection()
